@@ -1,5 +1,5 @@
-const symbolContainer = new PIXI.Container();
-
+`use strict`
+const symbolContainer = new PIXI.Container;
 class Service {
     constructor(balance, symbols){
         this.balance = balance
@@ -16,6 +16,10 @@ class Service {
         this.balance = newBalance;
     }
 
+    hasBalance(){
+        return this.balance > 0 && this.bet <= this.balance
+    }
+
     getBet(){
         return this.bet;
     }
@@ -27,12 +31,7 @@ class Service {
     getSymbols(){
          return this.symbols;    
     }
-
-    spin(){
-        const results = this.randomSymbolsGenerator()
-        return results;
-    }
-
+    //plqskai v app js
     clearSymbols(){
         for (var i = symbolContainer.children.length - 1; i >= 0; i--) {	
             symbolContainer.removeChild(symbolContainer.children[i]);
@@ -41,43 +40,30 @@ class Service {
 
     randomSymbolsGenerator(){
         this.clearSymbols();
-        const rowArr = new Array(); 
-        console.log(rowArr)
+        console.log(this.symbolsArr)
         for(let i=0; i<5 ; i++){
             const columnArr = new Array();  
             
             for(let j=0;j<3; j++){
                 const symbolNum = Math.trunc(Math.random()*`${this.symbols}`+1);
                 columnArr.push(symbolNum);
-            }
-            rowArr[i] = columnArr;   
-        }
-        if(this.winLine()){
-            this.setBalance(this.balance + this.bet*2);
-        } else {
-            this.setBalance(this.balance - this.bet);
-        }
-        return rowArr;
+            };
+            this.symbolsArr[i] = columnArr;
+        };
+        return this.symbolsArr;
     }
-    
-    winLine(){        
-        var counts = {};
-        if(randomSymbolsGenerator.rowArr.length){
-               var middleColumn = randomSymbolsGenerator.rowArr.map(column => {
-                   return column.find((symbol, index) => index === 0)
-               }).sort((a, b) => a - b)
-        }
 
-        middleColumn.forEach((x) => {
-            counts[x] = (counts[x] || 0) + 1;
+    winLine(){
+        const line = {};
+        const indexFilter = this.symbolsArr.map(index=>{
+            return index.find((symbol,id)=>id===1)
+        })
+        indexFilter.forEach((x)=>{
+            line[x] = (line[x]||0)+1;
         });
-
-        console.log(middleColumn);
-        return Object.values(counts).find(count => count >= 3);
-    }
- 
-    hasBalance(){
-        return this.balance > 0 && this.bet <= this.balance
+        console.log(line)
+        return Object.values(line).find(middlewin => middlewin>=3);
+        
     }
     
 }

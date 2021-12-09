@@ -1,3 +1,4 @@
+`use strict`
 // Application build
 import Service from './Service.js';
 
@@ -14,17 +15,12 @@ app.loader
    .add('assets', 'assets/SpriteSheet.json')
 
 function onAssetsLoaded() {
-   var service = new Service(balance , 8);
-
-   // TODO: Number Validation , chereshkata na tortatata , che bugva :D
+   const symbolContainer = new PIXI.Container();
    var balance = Number(prompt('Enter balance'));
-
+   var service = new Service(balance , 8);
    //Slot Frame
    const slotFrame = new PIXI.Sprite(PIXI.Texture.from('SlotFrame.png'));
-   app.stage.addChild(slotFrame);
-   
-   
-   
+   app.stage.addChild(slotFrame);   
    //TODO: Switch funtion button while spinning the reels after you do the animation
    // https://codepen.io/ulx/pen/NpqmWq?editors=0010 izplqskai go onCLick po dolu v toq file 
    //Spin button
@@ -69,6 +65,7 @@ function onAssetsLoaded() {
    app.stage.addChild(betText);
 
    function drawSymbols(symbolsData){
+      
       for(const [i, reelData] of symbolsData.entries()){
          for(const[j, symbolNum] of reelData.entries()){
             const textureKey = `Symbol_${symbolNum}.png`;
@@ -76,29 +73,19 @@ function onAssetsLoaded() {
             const symbol = new PIXI.Sprite(PIXI.Texture.from(textureUrl));
             symbol.x = i*270;
             symbol.y = j*270;
-            app.stage.addChild(symbol);
+            symbolContainer.addChild(symbol);
          }
-      }
+      }app.stage.addChild(symbolContainer);
    }
 
    const symbolsData = service.randomSymbolsGenerator(); drawSymbols(symbolsData);
    
    function onClick(){
-      if(service.hasBalance()){
-            service.spin();
-         }else{
-            loseText.visible = true;
-         };
-      if(service.winLine()){
-            winText.visible = true;
-         }else{
-            winText.visible = false;
-         }
-         balanceText.text = `Balance: ${service.getBalance()}`
-      }
-      Object.assign(window,{service})
-   }
+      service.randomSymbolsGenerator();
+      service.winLine();
    
+   }
+   Object.assign(window,{service})
    //Increase credit
    const addCreditBtn = new PIXI.Graphics();
    addCreditBtn.beginFill(0x8fce00);
@@ -135,11 +122,12 @@ function onAssetsLoaded() {
          service.setBet(service.getBet() - BET_STEP);
          betText.text = `Current bet: ${service.getBet()}`;
       }
-   };
-   app.loader.load(onAssetsLoaded);
+   }
+}; app.loader.load(onAssetsLoaded);
 
-app.stage.addChild(service.symbolContainer);
-         // if(service.hasBalance()){
+
+
+      // if(service.hasBalance()){
       //    service.spin();
       // } else {
       //    loseText.visible = true;
@@ -180,4 +168,4 @@ app.stage.addChild(service.symbolContainer);
       //       onAnimationFinished();
       //    },
       //    2000
-      // )
+      // 
