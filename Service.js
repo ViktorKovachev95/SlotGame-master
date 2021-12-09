@@ -36,7 +36,7 @@ class Service {
         for (var i = symbolContainer.children.length - 1; i >= 0; i--) {	
             symbolContainer.removeChild(symbolContainer.children[i]);
         };
-    }
+     }
 
     randomSymbolsGenerator(){
         this.clearSymbols();
@@ -55,8 +55,8 @@ class Service {
 
     winLine(){
         const line = {};
-        const indexFilter = this.symbolsArr.map(index=>{
-            return index.find((symbol,id)=>id===1)
+        const indexFilter = this.symbolsArr.map(reelSymbols=>{
+            return reelSymbols[1]
         })
         indexFilter.forEach((x)=>{
             line[x] = (line[x]||0)+1;
@@ -69,8 +69,9 @@ class Service {
 }
 
 export default Service;
-        
-        
+      
+
+
         
             // checkWin(){        
     //     var counts = {};
