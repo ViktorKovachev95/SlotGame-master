@@ -64,8 +64,8 @@ function onAssetsLoaded() {
    betText.y = 120;
    app.stage.addChild(betText);
 
+   
    function drawSymbols(symbolsData){
-      
       for(const [i, reelData] of symbolsData.entries()){
          for(const[j, symbolNum] of reelData.entries()){
             const textureKey = `Symbol_${symbolNum}.png`;
@@ -78,13 +78,10 @@ function onAssetsLoaded() {
       }app.stage.addChild(symbolContainer);
    }
 
-   const symbolsData = service.randomSymbolsGenerator(); drawSymbols(symbolsData);
+   const symbolsData = service.randomSymbolsGenerator(); 
+   drawSymbols(symbolsData);
    
-   function onClick(){
-      service.randomSymbolsGenerator();
-      service.winLine();
    
-   }
    Object.assign(window,{service})
    //Increase credit
    const addCreditBtn = new PIXI.Graphics();
@@ -122,6 +119,26 @@ function onAssetsLoaded() {
          service.setBet(service.getBet() - BET_STEP);
          betText.text = `Current bet: ${service.getBet()}`;
       }
+   }
+   function onClick(){
+      //service.randomSymbolsGenerator();
+      
+      function loopTicker(){
+         const symbolsData = service.randomSymbolsGenerator();
+            drawSymbols(symbolsData);
+      }
+      
+      app.ticker.add(loopTicker)
+
+      function stopLoopingTicker() {
+         app.ticker.remove(loopTicker);
+         service.winLine();
+      }
+
+      setTimeout(stopLoopingTicker,1000)
+      
+      
+     // setTimeout()
    }
 }; app.loader.load(onAssetsLoaded);
 
