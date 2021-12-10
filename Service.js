@@ -1,13 +1,25 @@
 `use strict`
 const symbolContainer = new PIXI.Container;
+
 class Service {
     constructor(balance, symbols){
         this.balance = balance
         this.symbols = 8
         this.symbolsArr= []
         this.bet = 20;
-    }
 
+        this.barabani = [
+            new Array(8000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
+            new Array(9000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
+            new Array(7500).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
+            new Array(8500).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
+            new Array(8200).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
+        ]
+
+        //this.reelScrolls = [0,0,0,0,0];
+        this.reelsScroll = 0;
+    }
+    
     getBalance(){
         return this.balance;
     }
@@ -45,7 +57,7 @@ class Service {
             const columnArr = new Array();  
             
             for(let j=0;j<3; j++){
-                const symbolNum = Math.trunc(Math.random()*`${this.symbols}`+1);
+                const symbolNum = Math.trunc(Math.random()*this.symbols+1);
                 columnArr.push(symbolNum);
             };
             this.symbolsArr[i] = columnArr;
