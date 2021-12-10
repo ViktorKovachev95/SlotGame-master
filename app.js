@@ -122,10 +122,14 @@ function onAssetsLoaded() {
    }
    function onClick(){
       //service.randomSymbolsGenerator();
-      
+      let chislo = 0;
       function loopTicker(){
          const symbolsData = service.randomSymbolsGenerator();
-            drawSymbols(symbolsData);
+         drawSymbols(symbolsData);
+         
+         chislo+=1;
+         console.log(chislo);
+         
       }
       
       app.ticker.add(loopTicker)
