@@ -1,5 +1,4 @@
 `use strict`
-const symbolContainer = new PIXI.Container;
 
 class Service {
     constructor(balance, symbols){
@@ -8,18 +7,17 @@ class Service {
         this.symbolsArr= []
         this.bet = 20;
 
-        this.barabani = [
+        this.reels = [
             new Array(8000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(9000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(7500).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(8500).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(8200).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
         ]
-
-        //this.reelScrolls = [0,0,0,0,0];
-        this.reelsScroll = 0;
+        console.log(this.reels)
+        this.reelsScroll = []
     }
-    
+
     getBalance(){
         return this.balance;
     }
@@ -44,26 +42,33 @@ class Service {
          return this.symbols;    
     }
     //plqskai v app js
-    clearSymbols(){
-        for (var i = symbolContainer.children.length - 1; i >= 0; i--) {	
-            symbolContainer.removeChild(symbolContainer.children[i]);
-        };
-     }
+    
 
-    randomSymbolsGenerator(){
-        this.clearSymbols();
-        console.log(this.symbolsArr)
-        for(let i=0; i<5 ; i++){
-            const columnArr = new Array();  
+     reelsGenerator(){
+         var reels = this.reels;
+         for(let i=0; i<5; i++){
+            var reelsScroll = this.reelsScroll;
+            reelsScroll[i] = reels.map(()=>[Math.floor(Math.random()*reels.length+1)])
+         }
+         console.log(reelsScroll);
+         return this.reels;
+         console.log(reels);
+           
+     }
+    // randomSymbolsGenerator(){
+    //     this.clearSymbols();
+    //     console.log(this.symbolsArr)
+    //     for(let i=0; i<5 ; i++){
+    //         const columnArr = new Array();  
             
-            for(let j=0;j<3; j++){
-                const symbolNum = Math.trunc(Math.random()*this.symbols+1);
-                columnArr.push(symbolNum);
-            };
-            this.symbolsArr[i] = columnArr;
-        };
-        return this.symbolsArr;
-    }
+    //         for(let j=0;j<3; j++){
+    //             const symbolNum = Math.trunc(Math.random()*this.symbols+1);
+    //             columnArr.push(symbolNum);
+    //         };
+    //         this.symbolsArr[i] = columnArr;
+    //     };
+    //     return this.symbolsArr;
+    // }
 
     winLine(){
         const line = {};

@@ -64,23 +64,28 @@ function onAssetsLoaded() {
    betText.y = 120;
    app.stage.addChild(betText);
 
+   function clearSymbols(){
+      for (var i = symbolContainer.children.length - 1; i >= 0; i--) {	
+          symbolContainer.removeChild(symbolContainer.children[i]);
+      };
+   }
    
    function drawSymbols(symbolsData){
-      for(const [i, reelData] of symbolsData.entries()){
-         for(const[j, symbolNum] of reelData.entries()){
+      clearSymbols()
+      for(const [i, reels] of symbolsData.entries()){
+         for(const[j, symbolNum] of reels.entries()){
             const textureKey = `Symbol_${symbolNum}.png`;
             const textureUrl = textureKey;
             const symbol = new PIXI.Sprite(PIXI.Texture.from(textureUrl));
-            symbol.x = i*270;
-            symbol.y = j*270;
+            symbol.x = (i%5)*270;
+            symbol.y = (j%3)*270;
             symbolContainer.addChild(symbol);
          }
       }app.stage.addChild(symbolContainer);
    }
 
-   const symbolsData = service.randomSymbolsGenerator(); 
+   const symbolsData = service.reelsGenerator(); 
    drawSymbols(symbolsData);
-   
    
    Object.assign(window,{service})
    //Increase credit
@@ -101,7 +106,6 @@ function onAssetsLoaded() {
          betText.text = `Current bet: ${service.getBet()}`;
       }
    };
-
    //Decrease credit
    const decreaseCreditBtn = new PIXI.Graphics();
    decreaseCreditBtn.beginFill(0xf44336);
@@ -120,16 +124,12 @@ function onAssetsLoaded() {
          betText.text = `Current bet: ${service.getBet()}`;
       }
    }
+
    function onClick(){
       //service.randomSymbolsGenerator();
-      let chislo = 0;
       function loopTicker(){
-         const symbolsData = service.randomSymbolsGenerator();
-         drawSymbols(symbolsData);
-         
-         chislo+=1;
-         console.log(chislo);
-         
+         const symbolsData = service.reelsGenerator();
+         drawSymbols(symbolsData);       
       }
       
       app.ticker.add(loopTicker)
@@ -139,10 +139,9 @@ function onAssetsLoaded() {
          service.winLine();
       }
 
-      setTimeout(stopLoopingTicker,1000)
-      
-      
+      setTimeout(stopLoopingTicker,1000)  
      // setTimeout()
+
    }
 }; app.loader.load(onAssetsLoaded);
 
