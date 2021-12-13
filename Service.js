@@ -1,12 +1,54 @@
 `use strict`
+    
+
+
+/**
+
+имаме 
+service.scrollIndex = 0
+
+при service.getCurrentSymbols()
+(в прозорчето какви символи има)
+
+взимаме scrollIndex, и за всеки reel (с reelIndex от 0 до 4) връщаме масив с 
+[
+    this.reels[reelIndex][scrollIndex],
+    this.reels[reelIndex][scrollIndex+1],
+    this.reels[reelIndex][scrollIndex+2],
+]
+(x 5)
+
+e.g.
+[
+    [1,2,3],
+    [1,2,3],
+    [1,2,3],
+    [1,2,3],
+    [1,2,3],
+]
+
+------
+
+на всеки кадър по време на анимацията
+(в loopTicker)
+
+service.scrollIndex++;
+
+(зада създадем илюзията че барабаните се въртят на вс кадър)
+
+------
+
+x x x x x 
+
+ */
 
 class Service {
     constructor(balance, symbols){
         this.balance = balance
         this.symbols = 8
         this.symbolsArr= []
-        this.bet = 20;
-
+        this.bet = 20
+        this.scrollIndex=[]
         this.reels = [
             new Array(8000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(9000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
@@ -14,14 +56,13 @@ class Service {
             new Array(8500).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(8200).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
         ]
-        console.log(this.reels)
         this.reelsScroll = []
     }
+
 
     getBalance(){
         return this.balance;
     }
-
     setBalance(newBalance){
         this.balance = newBalance;
     }
@@ -41,34 +82,17 @@ class Service {
     getSymbols(){
          return this.symbols;    
     }
-    //plqskai v app js
-    
+    reelsGenerator(){
+        let scrollIndex = this.scrollIndex;
+        for(let i=0; i<5; i++){
+            for(let j=0; j<3; j++){
+                scrollIndex[j] = this.reels.indexOf(Math.trunc(Math.random()*this.reels.length))
+            } console.log(scrollIndex)
+        }
+    }
+    getCurrentSymbols(){
 
-     reelsGenerator(){
-         var reels = this.reels;
-         for(let i=0; i<5; i++){
-            var reelsScroll = this.reelsScroll;
-            reelsScroll[i] = reels.map(()=>[Math.floor(Math.random()*reels.length+1)])
-         }
-         console.log(reelsScroll);
-         return this.reels;
-         console.log(reels);
-           
-     }
-    // randomSymbolsGenerator(){
-    //     this.clearSymbols();
-    //     console.log(this.symbolsArr)
-    //     for(let i=0; i<5 ; i++){
-    //         const columnArr = new Array();  
-            
-    //         for(let j=0;j<3; j++){
-    //             const symbolNum = Math.trunc(Math.random()*this.symbols+1);
-    //             columnArr.push(symbolNum);
-    //         };
-    //         this.symbolsArr[i] = columnArr;
-    //     };
-    //     return this.symbolsArr;
-    // }
+    }
 
     winLine(){
         const line = {};
@@ -102,4 +126,18 @@ export default Service;
     //         counts[x] = (counts[x] || 0) + 1;
     //     });
     //     return Object.values(counts).find(count => count >= 3);
+    // }
+    // randomSymbolsGenerator(){
+    //     this.clearSymbols();
+    //     console.log(this.symbolsArr)
+    //     for(let i=0; i<5 ; i++){
+    //         const columnArr = new Array();  
+            
+    //         for(let j=0;j<3; j++){
+    //             const symbolNum = Math.trunc(Math.random()*this.symbols+1);
+    //             columnArr.push(symbolNum);
+    //         };
+    //         this.symbolsArr[i] = columnArr;
+    //     };
+    //     return this.symbolsArr;
     // }

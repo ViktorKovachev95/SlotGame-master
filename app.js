@@ -70,22 +70,22 @@ function onAssetsLoaded() {
       };
    }
    
-   function drawSymbols(symbolsData){
-      clearSymbols()
-      for(const [i, reels] of symbolsData.entries()){
-         for(const[j, symbolNum] of reels.entries()){
-            const textureKey = `Symbol_${symbolNum}.png`;
-            const textureUrl = textureKey;
-            const symbol = new PIXI.Sprite(PIXI.Texture.from(textureUrl));
-            symbol.x = (i%5)*270;
-            symbol.y = (j%3)*270;
-            symbolContainer.addChild(symbol);
-         }
-      }app.stage.addChild(symbolContainer);
-   }
+   // function drawSymbols(symbolsData){
+   //    clearSymbols()
+   //    for(const [i, reels] of symbolsData.entries()){
+   //       for(const[j, symbolNum] of reels.entries()){
+   //          const textureKey = `Symbol_${symbolNum}.png`;
+   //          const textureUrl = textureKey;
+   //          const symbol = new PIXI.Sprite(PIXI.Texture.from(textureUrl));
+   //          symbol.x = (i%5)*270;
+   //          symbol.y = (j%3)*270;
+   //          symbolContainer.addChild(symbol);
+   //       }
+   //    }app.stage.addChild(symbolContainer);
+   // }
 
-   const symbolsData = service.reelsGenerator(); 
-   drawSymbols(symbolsData);
+   // const symbolsData = service.reelsGenerator(); 
+   // drawSymbols(symbolsData);
    
    Object.assign(window,{service})
    //Increase credit
