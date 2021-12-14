@@ -48,7 +48,8 @@ class Service {
         this.symbols = 8
         this.symbolsArr= []
         this.bet = 20
-        this.scrollIndex=[]
+        this.scrollIndex=[0,1,2]
+        this.reelIndex=[0,1,2,3,4]
         this.reels = [
             new Array(8000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
             new Array(9000).fill(0).map(() => Math.trunc(Math.random()*this.symbols+1)),
@@ -83,13 +84,23 @@ class Service {
          return this.symbols;    
     }
     reelsGenerator(){
-        let scrollIndex = this.scrollIndex;
-        for(let i=0; i<5; i++){
-            for(let j=0; j<3; j++){
-                scrollIndex[j] = this.reels.indexOf(Math.trunc(Math.random()*this.reels.length))
-            } console.log(scrollIndex)
-        }
-    }
+        for(const [reelIndex , symbols] of this.reels.entries()){
+            for(const [symbolIndex, symbolNum] of symbols.entries()){
+                const reelGraph = `${reelIndex}:${symbolNum}`;
+                console.log(reelGraph);
+                }
+            for (let i=0; i<this.scrollIndex; i++){
+                var reelSymbol = []
+                console.log(reel);
+            }
+            }
+        }           
+       //console.log(`${indexx+1}: ${symbolNum}`);
+            //const symbolID = (`${indexx+1}: ${symbolNum}`);
+            // const symbolID = (`${indexx+1}: ${symbolNum}`);
+            //     console.log(symbolID);
+
+        
     getCurrentSymbols(){
 
     }
